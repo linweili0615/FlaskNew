@@ -6,6 +6,7 @@ from apps.auth.models import *
 from flask_login import login_user,logout_user,current_user,login_required
 from apps.auth.forms import RegisterForm, LoginForm
 from apps import db
+from flask import request
 
 @auth.route('/')
 def index():
@@ -16,6 +17,8 @@ def index():
 # 用户注册
 @auth.route('/register/', methods=['POST'])
 def register():
+    print(request.get_json())
+    print(request.get_data().decode('utf-8'))
     form = RegisterForm()
     if form.validate_on_submit():
         # 根据表单数据创建用户对象
