@@ -8,6 +8,7 @@ from apps.test import test
 # 创建app
 app = create_app()
 #注册蓝图
+app.register_blueprint(auth)
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(test, url_prefix='/test')
 
