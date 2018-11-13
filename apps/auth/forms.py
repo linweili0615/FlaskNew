@@ -21,4 +21,6 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     username = StringField('username', validators=[DataRequired(message='no empty')])
     password = PasswordField('password', validators=[DataRequired(message='no empty')])
-    submit = SubmitField('login')
+
+class TokenForm(FlaskForm):
+    token = StringField('token',validators=[DataRequired(message='token 不能为空')])
