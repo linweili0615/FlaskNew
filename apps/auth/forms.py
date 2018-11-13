@@ -10,7 +10,6 @@ from apps.auth.models import User
 class RegisterForm(FlaskForm):
     username = StringField('用户名', validators=[DataRequired(message='用户名不能为空'), Length(6, 12, message='用户名只能在6~12个字符之间')])
     password = PasswordField('密码', validators=[DataRequired(message='密码不能为空'), Length(6, 20, message='密码只能在6~20个字符之间')])
-    submit = SubmitField('立即注册')
 
     # 自定义用户名验证器
     def validate_username(self, field):
