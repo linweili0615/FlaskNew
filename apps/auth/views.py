@@ -67,21 +67,26 @@ def logout():
 @auth.route('/validToken',methods=['POST'])
 def valid_token():
     #解析token令牌信息
-    form = TokenForm().validate()
-    s = TimedJSONWebSignatureSerializer(app.config['SECRET_KEY'])
-    try:
-        data = s.loads(form.token.data, return_header=True)
-        r = {
-            'scope': data[0]['scope'],
-            'create_at': data[1]['iat'],
-            'expire_in': data[1]['exp'],
-            'uid': data[0]['uid']
-        }
-        return jsonify(r)
-    except SignatureExpired:
-        return 'token is expired'
-    except BadSignature:
-        return 'token is invalid'
+    form = TokenForm()
+    if form.validate_on_submit():
+        try:
+            s = TimedJSONWebSignatureSerializer(app.config['SECRET_KEY'])
+            data = s.loads(form.token.data, return_header=True)
+            r = {
+                'scope': data[0]['scope'],
+                'create_at': data[1]['iat'],
+                'expire_in': data[1]['exp'],
+                'uid': data[0]['uid']
+            }
+            return jsonify(r)
+        except SignatureExpired:
+            return 'token is expired'
+        except BadSignature:
+            return 'token is invalid'
+    return jsonify({
+        "status": "failed",
+        "error": form.errors
+    })
 
 
 
